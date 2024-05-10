@@ -15,7 +15,39 @@ STEP:5 Select the run simulation and then run Behavioral Simulation in the
 Source Window and click the check syntax. 
 STEP:6 Click the simulation to simulate the program and give the inputs and 
 verify the outputs as per the truth table. 
-STEP:7 compare the output with truth table.
+STEP:7 compare the output 
+# truth table.
 ![image](https://github.com/RESMIRNAIR/PISO_SR/assets/154305926/f0f2d979-b298-4693-b5c8-8eea850936d4)
 # verilog code
+module piso_shift_register(
+  input wire clk,       // Clock input
+  input wire reset,     // Reset input
+  input wire parallel_in,  // Parallel input
+  output reg serial_out  // Serial output
+);
 
+// Initialize shift register
+reg [7:0] shift_reg = 8'b00000000;
+
+always @(posedge clk or posedge reset) begin
+  if (reset) begin
+    // Reset shift register
+    shift_reg <= 8'b00000000;
+    serial_out <= 1'b0;
+  end
+  else begin
+    // Shift data in
+    if (parallel_in) begin
+      shift_reg <= {shift_reg[6:0], parallel_in}; // Shift in parallel data
+    end
+    
+    // Serial output
+    serial_out <= shift_reg[7];
+  end
+end
+
+endmodule
+# output
+![piso ss](https://github.com/lathika024/PISO_SR/assets/165888553/2595183e-81d3-4434-8f9e-8a2eb0852223)
+# result
+thus PISO_SR is succesfully completed using vivado
